@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
         tabs.addTab(spec);
 
         spec = tabs.newTabSpec("tag2");
-        spec.setContent(R.id.add_purpose);
+        spec.setContent(R.id.my_purposes);
         spec.setIndicator("My Purposes");
         tabs.addTab(spec);
 
-        tabs.setCurrentTab(0);
+        tabs.setCurrentTab(1);
     }
 }

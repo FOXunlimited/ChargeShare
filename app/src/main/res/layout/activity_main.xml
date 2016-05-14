@@ -8,8 +8,7 @@
     <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,7 +47,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/add_purpose"
+                    android:id="@+id/my_purposes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -64,6 +63,20 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
+                            <ListView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </ListView>
+
+                            <Button
+                                android:id="@+id/btn_add_purpose"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/activity_vertical_margin"
+                                android:background="@color/colorPrimaryDark"
+                                android:text="@string/add_purpose"
+                                android:textColor="@color/colorTextPrimary" />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
