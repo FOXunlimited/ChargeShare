@@ -36,12 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnAddPurpose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(loginStatus == true) {
-                    Intent i = new Intent(MainActivity.this, AddPurposeActivity.class);
-                }
-                else{
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                }
+                Intent i  = new Intent(MainActivity.this, AddPurposeActivity.class);
+                startActivity(i);
             }
         });
 
