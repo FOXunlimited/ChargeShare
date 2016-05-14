@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
                     //Nathalie, please, check is entered password correct
                     if(false){
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        i.putExtra("LoginStatus", true);
                         startActivity(i);
                     }
                     else{
@@ -55,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                i.putExtra("LoginStatus", false);
                 startActivity(i);
             }
         });

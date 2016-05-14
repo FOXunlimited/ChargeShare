@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loginStatus = (Boolean)savedInstanceState.get("LoginStatus");
 
         //Adding purposes intent
         Button btnAddPurpose = (Button)findViewById(R.id.btn_add_purpose);
