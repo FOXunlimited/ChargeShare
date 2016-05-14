@@ -10,6 +10,15 @@ import com.firebase.client.Firebase;
  */
 public class App extends Application {
 
+    private static User user;
+
+    public static User getUser(){
+        return user;
+    }
+    public void setUser(User user){
+        this.user = user;
+    }
+
     private static Application sContext;
 
     public App() {

@@ -16,6 +16,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        /*if(serialization != null) {
+            //get serialization data to automatically login here
+            TODO: Login here
+            TODO: +Set in App field User this 'User'
+            }
+             */
         Button btnLogin = (Button)findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

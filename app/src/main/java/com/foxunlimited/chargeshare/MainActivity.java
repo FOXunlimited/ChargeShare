@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnAddPurpose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i  = new Intent(MainActivity.this, AddPurposeActivity.class);
+                Intent i = new Intent(MainActivity.this, AddPurposeActivity.class);
                 startActivity(i);
             }
         });
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         spec.setContent(R.id.my_purposes);
         spec.setIndicator("My Purposes");
         tabs.addTab(spec);
+
+        spec = tabs.newTabSpec("tag3");
+        //spec.setIndicator(n)
 
         tabs.setCurrentTab(0);
 
