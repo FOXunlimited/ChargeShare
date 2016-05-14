@@ -3,6 +3,7 @@ package com.foxunlimited.chargeshare;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -45,13 +46,17 @@ public class User implements Parcelable {
     };
 
     @Override
+    public String toString() {
+        return  mail;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
         dest.writeString(userId);
         dest.writeString(mail);
         dest.writeString(pass);

@@ -15,8 +15,8 @@ public class App extends Application {
     public static User getUser(){
         return user;
     }
-    public void setUser(User user){
-        this.user = user;
+    public static void setUser(User usr){
+        user = usr;
     }
 
     private static Application sContext;

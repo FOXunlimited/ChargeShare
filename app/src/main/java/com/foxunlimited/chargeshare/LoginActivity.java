@@ -8,6 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+
 /**
  * Created by bewus on 5/14/2016.
  */
@@ -16,31 +25,31 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        /*if(serialization != null) {
-            //get serialization data to automatically login here
-            TODO: Login here
-            TODO: +Set in App field User this 'User'
-            }
-             */
+        if(Prefs.getUser().userId!=null){
+            UserFirebaseManager.GetProposes(App.getUser());
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
         Button btnLogin = (Button)findViewById(R.id.btn_login);
+        assert btnLogin != null;
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Nathalie check, please, is entered email exist
-                if(false){
-                    //Nathalie, please, check is entered password correct
-                    if(false){
+                UserFirebaseManager.LoginUser(App.getUser(), new UserFirebaseManager.UserAuthenticationListener() {
+                    @Override
+                    public void onAuthentication() {
+                        Prefs.saveUser(App.getUser());
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, "E-mail or password incorrect", Toast.LENGTH_SHORT);
+                        finish();
                     }
 
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "E-mail incorrect", Toast.LENGTH_SHORT);
-                }
+                    @Override
+                    public void onAuthenticationError() {
+                    }
+                });
+
             }
         });
 
@@ -51,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -61,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }

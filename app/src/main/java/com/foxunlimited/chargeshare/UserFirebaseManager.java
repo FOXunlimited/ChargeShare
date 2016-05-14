@@ -24,6 +24,13 @@ public class UserFirebaseManager {
         void onSuccess();
         void onFailure();
     }
+
+    interface UserAuthenticationListener{
+        void onAuthentication();
+        void onAuthenticationError();
+
+    }
+
     public static Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
 
     public static void CreateUser(final User user, final UserLoginListener listener) {
@@ -55,7 +62,7 @@ public class UserFirebaseManager {
         });
     }
 
-    public static void LoginUser(final User user) {
+    public static void LoginUser(final User user, final UserAuthenticationListener usrAuthListener) {
 
         ref.authWithPassword(user.mail, user.pass, new Firebase.AuthResultHandler() {
             @Override
@@ -64,6 +71,7 @@ public class UserFirebaseManager {
                 Firebase usersref = ref.child("users").child(user.userId).child("nick");
                 user.nick = usersref.getKey();
                 GetProposes(user);
+                usrAuthListener.onAuthentication();
             }
 
             @Override
@@ -78,6 +86,7 @@ public class UserFirebaseManager {
                     default:
                         Toast.makeText(App.getContext(), firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
+                usrAuthListener.onAuthenticationError();
             }
         });
     }
