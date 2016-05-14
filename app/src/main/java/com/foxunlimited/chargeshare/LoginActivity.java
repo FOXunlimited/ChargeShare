@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,21 +26,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(Prefs.getUser().userId!=null){
+        /*if(Prefs.getUser().userId!=null){
             UserFirebaseManager.GetProposes(App.getUser());
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
+        */
         Button btnLogin = (Button)findViewById(R.id.btn_login);
-        assert btnLogin != null;
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserFirebaseManager.LoginUser(App.getUser(), new UserFirebaseManager.UserAuthenticationListener() {
+
+                App.setUser(UserFirebaseManager.LoginUser(((EditText)findViewById(R.id.txt_email)).getText().toString(),((EditText)findViewById(R.id.txt_password)).getText().toString(), new UserFirebaseManager.UserAuthenticationListener() {
                     @Override
                     public void onAuthentication() {
-                        Prefs.saveUser(App.getUser());
+    //                    Prefs.saveUser(App.getUser());
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
                         finish();
@@ -48,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticationError() {
                     }
-                });
+                }));
 
             }
         });

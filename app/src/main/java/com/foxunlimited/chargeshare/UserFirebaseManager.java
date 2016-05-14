@@ -40,8 +40,10 @@ public class UserFirebaseManager {
             public void onSuccess(Map<String, Object> result) {
                 System.out.println("Successfully created user account with uid");
                 user.userId = (String) result.get("uid");
-                Firebase usersRef = ref.child("users").child(user.userId);
-                usersRef.setValue(user);
+                Firebase usersRef = ref.child("users").child(user.userId).child("userId");
+                usersRef.setValue(user.userId);
+                usersRef = ref.child("users").child(user.userId).child("nick");
+                usersRef.setValue(user.nick);
                 listener.onSuccess();
             }
 
@@ -64,7 +66,7 @@ public class UserFirebaseManager {
 
     public static User LoginUser(String mail, String pass, final UserAuthenticationListener usrAuthListener) {
 
-        final User[] usr = {null};
+        final User[] usr = {new User()};
         usr[0].mail = mail;
         usr[0].pass = pass;
         ref.authWithPassword(mail, pass, new Firebase.AuthResultHandler() {
@@ -72,7 +74,7 @@ public class UserFirebaseManager {
             public void onAuthenticated(AuthData authData) {
                 usr[0].userId = (String)authData.getUid();
                 Firebase usersref = ref.child("users").child(usr[0].userId).child("nick");
-                usr[0].nick = usersref.getKey();
+                usr[0].nick = usersref.toString();
                 GetProposes(usr[0]);
                 usrAuthListener.onAuthentication();
             }
