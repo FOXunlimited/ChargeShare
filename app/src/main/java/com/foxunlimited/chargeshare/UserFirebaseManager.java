@@ -62,15 +62,18 @@ public class UserFirebaseManager {
         });
     }
 
-    public static void LoginUser(final User user, final UserAuthenticationListener usrAuthListener) {
+    public static User LoginUser(String mail, String pass, final UserAuthenticationListener usrAuthListener) {
 
-        ref.authWithPassword(user.mail, user.pass, new Firebase.AuthResultHandler() {
+        final User[] usr = {null};
+        usr[0].mail = mail;
+        usr[0].pass = pass;
+        ref.authWithPassword(mail, pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                user.userId = (String)authData.getUid();
-                Firebase usersref = ref.child("users").child(user.userId).child("nick");
-                user.nick = usersref.getKey();
-                GetProposes(user);
+                usr[0].userId = (String)authData.getUid();
+                Firebase usersref = ref.child("users").child(usr[0].userId).child("nick");
+                usr[0].nick = usersref.getKey();
+                GetProposes(usr[0]);
                 usrAuthListener.onAuthentication();
             }
 
@@ -89,6 +92,7 @@ public class UserFirebaseManager {
                 usrAuthListener.onAuthenticationError();
             }
         });
+        return usr[0];
     }
 
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
