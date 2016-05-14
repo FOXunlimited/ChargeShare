@@ -9,6 +9,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +60,10 @@ public class UserFirebaseManager {
         ref.authWithPassword(user.mail, user.pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                Firebase usersref = ref.child("users").child(authData.getUid());
-                Map <String, Object> map = new HashMap<String, Object>();
-                map.put("provider", authData.getProvider());
-//                user = map.get("provider").User.class;
+                user.userId = (String)authData.getUid();
+                Firebase usersref = ref.child("users").child(user.userId).child("nick");
+                user.nick = usersref.getKey();
+                GetProposes(user);
             }
 
             @Override
@@ -87,7 +89,7 @@ public class UserFirebaseManager {
         userRef.setValue(info);
     }
 
-    public static User[] GetAllUsers()
+    public static List <User> GetAllUsers()
     {
         Firebase usersref = ref.child("users");
         final User[] users = {null};
@@ -97,20 +99,41 @@ public class UserFirebaseManager {
                 int countUsers = 0;
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     User user = postSnapshot.getValue(User.class);
+                    GetProposes(user);
                     users[countUsers] = user;
+                    countUsers++;
                 }
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        return users;
+        List <User> allUsers = Arrays.asList(users);
+        return allUsers;
     }
 
-    /*public List<purposeInfo> GetProposes(String cur_adress)
+    public static void GetProposes(User user)
     {
+        Firebase usersref = ref.child("users").child(user.userId).child("purpose");
+        final PurposeInfo[] purposes = {null};
+        usersref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int countPurposes = 0;
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    PurposeInfo info = postSnapshot.getValue(PurposeInfo.class);
+                    purposes[countPurposes] = info;
+                    countPurposes++;
+                }
+            }
 
-    }*/
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+        List <PurposeInfo> all_purposes = Arrays.asList(purposes);
+        user.purposes = all_purposes;
+    }
 
     // public void RemovePropose
 }
