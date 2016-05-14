@@ -2,6 +2,7 @@ package com.foxunlimited.chargeshare;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 
 /**
  * Created by bewus on 5/14/2016.
