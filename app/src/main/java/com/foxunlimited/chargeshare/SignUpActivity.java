@@ -33,18 +33,25 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txtPassword.getText() == txtConfirmPassword.getText()) {
+                if(txtPassword.getText().toString().equals(txtConfirmPassword.getText().toString())) {
                     user = new User(txtEmail.getText().toString(), txtPassword.getText().toString(), txtName.getText().toString());
-                    UserFirebaseManager.CreateUser(user);
+                    UserFirebaseManager.CreateUser(user, new UserFirebaseManager.UserLoginListener() {
+                        @Override
+                        public void onSuccess() {
+                            Intent i  = new Intent(SignUpActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
 
-                    Intent i  = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(i);
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    });
                 }
                 else{
-                    Toast.makeText(SignUpActivity.this, "Passwords don`t match", Toast.LENGTH_SHORT);
+                    Toast.makeText(SignUpActivity.this, "Passwords don`t match", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 }

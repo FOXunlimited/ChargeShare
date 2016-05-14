@@ -78,7 +78,6 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@color/colorPrimaryDark"
             android:text="@string/sign_up"
-            android:textColor="@color/colorTextPrimary"
-            android:onClick="SingUpClicked"/>
+            android:textColor="@color/colorTextPrimary"/>
     </RelativeLayout>
 </LinearLayout>

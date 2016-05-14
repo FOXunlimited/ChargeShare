@@ -14,28 +14,35 @@ import java.util.Map;
  * Created by Nathalie Britan on 14.05.2016.
  */
 public class UserFirebaseManager {
+
+    interface UserLoginListener {
+        void onSuccess();
+        void onFailure();
+    }
     public static Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
 
-    public static void CreateUser(User user) {
+    public static void CreateUser(User user, final UserLoginListener listener) {
 
         ref.createUser(user.mail, user.pass, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
                 System.out.println("Successfully created user account with uid");
+                listener.onSuccess();
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
                 switch (firebaseError.getCode()) {
                     case FirebaseError.EMAIL_TAKEN:
-                        System.out.println("The new user account cannot be created because the email is already in use.");
+                        Toast.makeText(App.getContext(), "The new user account cannot be created because the email is already in use.", Toast.LENGTH_LONG).show();
                         break;
                     case FirebaseError.INVALID_EMAIL:
-                        System.out.println("The specified email is not a valid email.");
+                        Toast.makeText(App.getContext(), "The specified email is not a valid email.", Toast.LENGTH_LONG).show();
                         break;
                     default:
-                        System.out.println(firebaseError.getMessage());
+                        Toast.makeText(App.getContext(), firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
+                listener.onFailure();
             }
         });
     }
@@ -50,13 +57,13 @@ public class UserFirebaseManager {
             public void onAuthenticationError(FirebaseError firebaseError) {
                 switch (firebaseError.getCode()) {
                     case FirebaseError.USER_DOES_NOT_EXIST:
-                        System.out.println("User does not exist");
+                        Toast.makeText(App.getContext(), "User does not exist", Toast.LENGTH_LONG).show();
                         break;
                     case FirebaseError.INVALID_PASSWORD:
-                        System.out.println("Wrong password");
+                        Toast.makeText(App.getContext(), "Wrong password", Toast.LENGTH_LONG).show();
                         break;
                     default:
-                        System.out.println(firebaseError.getMessage());
+                        Toast.makeText(App.getContext(), firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
