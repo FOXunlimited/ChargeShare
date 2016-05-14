@@ -37,6 +37,13 @@ public class AddPurposeActivity extends AppCompatActivity {
                 openAutocompleteActivity();
             }
         });
+        placeView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View arg0, boolean arg1) {
+                if(placeView.hasFocus()) {
+                    openAutocompleteActivity();
+                }
+            }
+        });
         //Nathalie, add!!!
         Button confirmAddPurpose = (Button)findViewById(R.id.btn_confirm_add_purpose);
         confirmAddPurpose.setOnClickListener(new View.OnClickListener() {
