@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         tabs.addTab(spec);
 
         spec = tabs.newTabSpec("tag2");
-        spec.setContent(R.id.add_purpose);
+        spec.setContent(R.id.my_purposes);
         spec.setIndicator("My Purposes");
         tabs.addTab(spec);
 
