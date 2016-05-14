@@ -1,5 +1,7 @@
 package com.foxunlimited.chargeshare;
 
+import android.widget.Toast;
+
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -12,23 +14,11 @@ import java.util.Map;
  * Created by Nathalie Britan on 14.05.2016.
  */
 public class UserFirebaseManager {
-    public Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
-    public String userId;
-    public String mail;
-    public String pass;
-    public String nick;
-    public List<PurposeInfo> purposes;
+    public static Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
 
+    public static void CreateUser(User user) {
 
-    public UserFirebaseManager(String mail, String pass, String nick) {
-        this.mail = mail;
-        this.pass = pass;
-        this.nick = nick;
-    }
-
-    public void CreateUser() {
-        ref.createUser(mail, pass, new Firebase.ValueResultHandler<Map<String, Object>>() {
-
+        ref.createUser(user.mail, user.pass, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
                 System.out.println("Successfully created user account with uid");
@@ -50,11 +40,10 @@ public class UserFirebaseManager {
         });
     }
 
-    public void LoginUser() {
-        ref.authWithPassword(mail, pass, new Firebase.AuthResultHandler() {
+    public static void LoginUser(User user) {
+        ref.authWithPassword(user.mail, user.pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                userId = ref.getAuth().getUid();
             }
 
             @Override
@@ -73,10 +62,10 @@ public class UserFirebaseManager {
         });
     }
 
-    public void AddPurpose(LatLng coords, String phone, String description) {
+    public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
-        purposes.add(info);
-        Firebase userRef = ref.child("users").child(userId).child("purposes");//.child(Integer.toString(purposes.size()));
+        user.purposes.add(info);
+        Firebase userRef = ref.child("users").child(user.userId).child("purposes");//.child(Integer.toString(purposes.size()));
         userRef.push().setValue(info);
     }
 
