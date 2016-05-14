@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginLeft="@dimen/activivty_horizontal_margin_large"
-    android:layout_marginRight="@dimen/activivty_horizontal_margin_large"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background=""
     android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/activivty_horizontal_margin_large"
+        android:layout_marginRight="@dimen/activivty_horizontal_margin_large"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/txt_email_label"
@@ -32,7 +38,9 @@
 
     <Button
         android:id="@+id/btn_login"
+        android:layout_below="@id/txt_password"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    </RelativeLayout>
 </LinearLayout>
