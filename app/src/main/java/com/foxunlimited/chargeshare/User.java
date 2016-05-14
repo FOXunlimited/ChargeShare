@@ -12,6 +12,10 @@ public class User {
     public String nick;
     public List<PurposeInfo> purposes;
 
+    public User()
+    {
+
+    }
     public User(String mail, String pass, String nick) {
         this.mail = mail;
         this.pass = pass;

@@ -10,6 +10,11 @@ import com.google.android.gms.maps.model.LatLng;
         String phone;
         String description;
 
+        public PurposeInfo()
+        {
+
+        }
+
         public PurposeInfo(LatLng coords, String phone, String description){
             this.coords = coords;
             this.phone = phone;

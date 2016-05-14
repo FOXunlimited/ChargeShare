@@ -3,10 +3,13 @@ package com.foxunlimited.chargeshare;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +24,15 @@ public class UserFirebaseManager {
     }
     public static Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
 
-    public static void CreateUser(User user, final UserLoginListener listener) {
+    public static void CreateUser(final User user, final UserLoginListener listener) {
 
         ref.createUser(user.mail, user.pass, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
                 System.out.println("Successfully created user account with uid");
+                user.userId = (String) result.get("uid");
+                Firebase usersRef = ref.child("users").child(user.userId);
+                usersRef.setValue(user);
                 listener.onSuccess();
             }
 
@@ -47,10 +53,15 @@ public class UserFirebaseManager {
         });
     }
 
-    public static void LoginUser(User user) {
+    public static void LoginUser(final User user) {
+
         ref.authWithPassword(user.mail, user.pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                Firebase usersref = ref.child("users").child(authData.getUid());
+                Map <String, Object> map = new HashMap<String, Object>();
+                map.put("provider", authData.getProvider());
+//                user = map.get("provider").User.class;
             }
 
             @Override
@@ -72,11 +83,31 @@ public class UserFirebaseManager {
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
         user.purposes.add(info);
-        Firebase userRef = ref.child("users").child(user.userId).child("purposes");//.child(Integer.toString(purposes.size()));
-        userRef.push().setValue(info);
+        Firebase userRef = ref.child("users").child(user.userId).child("purposes").push();
+        userRef.setValue(info);
     }
 
-    /*public List<purposeInfo> SearchForCharge(String cur_adress)
+    public static User[] GetAllUsers()
+    {
+        Firebase usersref = ref.child("users");
+        final User[] users = {null};
+        usersref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int countUsers = 0;
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+                    users[countUsers] = user;
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+        return users;
+    }
+
+    /*public List<purposeInfo> GetProposes(String cur_adress)
     {
 
     }*/
