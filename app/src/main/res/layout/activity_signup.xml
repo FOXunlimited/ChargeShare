@@ -7,16 +7,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activivty_horizontal_margin_large"
-        android:layout_marginRight="@dimen/activivty_horizontal_margin_large"
-        android:layout_marginTop="@dimen/activivty_vertical_margin_large">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activivty_vertical_margin_large">
+
+        <TextView
+            android:id="@+id/txt_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/colorTextSecondary" />
+
+        <EditText
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_name_label" />
 
         <TextView
             android:id="@+id/txt_email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txt_name"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/e_mail"
             android:textColor="@color/colorTextSecondary" />
 
@@ -24,7 +36,7 @@
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_email_label" />
+            android:layout_below="@id/txt_email_label" />
 
         <TextView
             android:id="@+id/txt_password_label"
@@ -39,35 +51,31 @@
             android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_password_label" />
+            android:layout_below="@id/txt_password_label" />
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txt_confirm_password_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_password"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/login"
-            android:textColor="@color/colorTextPrimary" />
+            android:text="@string/confirm_password"
+            android:textColor="@color/colorTextSecondary" />
 
-        <TextView
-            android:id="@+id/sign_up"
+        <EditText
+            android:id="@+id/txt_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_login"
+            android:layout_below="@id/txt_confirm_password_label" />
+
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_confirm_password"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/sign_up_btn"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextPrimary" />
-
-        <TextView
-            android:id="@+id/txt_skip_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/skip_login"
-            android:textAlignment="center"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/sign_up"
             android:textColor="@color/colorTextPrimary" />
     </RelativeLayout>
 </LinearLayout>
