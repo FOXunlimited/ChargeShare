@@ -18,8 +18,12 @@ public class SignUpActivity extends AppCompatActivity {
     EditText txtEmail;
     EditText txtPassword;
     EditText txtConfirmPassword;
-    User user;
+    private User user;
     Button btnSignUp;
+
+    public User getUser(){
+        return user;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
