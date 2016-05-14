@@ -12,29 +12,15 @@ import java.util.Map;
  * Created by Nathalie Britan on 14.05.2016.
  */
 public class UserFirebaseManager {
-    public  Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
-    public  String userId;
+    public Firebase ref = new Firebase("https://chargeshare.firebaseio.com/");
+    public String userId;
     public String mail;
     public String pass;
     public String nick;
-    public List<purposeInfo> purposes;
+    public List<PurposeInfo> purposes;
 
-    public class purposeInfo{
-        LatLng coords;
-        String phone;
-        String description;
 
-        public purposeInfo(LatLng coords, String phone, String description)
-        {
-            this.coords = coords;
-            this.phone = phone;
-            this.description = description;
-        }
-
-    }
-
-    public UserFirebaseManager(String mail, String pass, String nick)
-    {
+    public UserFirebaseManager(String mail, String pass, String nick) {
         this.mail = mail;
         this.pass = pass;
         this.nick = nick;
@@ -64,8 +50,7 @@ public class UserFirebaseManager {
         });
     }
 
-    public void LoginUser()
-    {
+    public void LoginUser() {
         ref.authWithPassword(mail, pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
@@ -88,9 +73,8 @@ public class UserFirebaseManager {
         });
     }
 
-    public void AddPurpose(String nick, LatLng coords, String phone, String description)
-    {
-        purposeInfo info = new purposeInfo(coords,phone,description);
+    public void AddPurpose(LatLng coords, String phone, String description) {
+        PurposeInfo info = new PurposeInfo(coords, phone, description);
         purposes.add(info);
         Firebase userRef = ref.child("users").child(userId).child("purposes");//.child(Integer.toString(purposes.size()));
         userRef.push().setValue(info);
@@ -101,5 +85,5 @@ public class UserFirebaseManager {
 
     }*/
 
-   // public void RemovePropose
+    // public void RemovePropose
 }
