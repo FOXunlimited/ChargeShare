@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-    MapFragment map;
+    SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
     boolean loginStatus;
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         options.mapType(GoogleMap.MAP_TYPE_NORMAL)
                 .compassEnabled(true)
                 .rotateGesturesEnabled(true);
-        map = (MapFragment) getFragmentManager().findFragmentById(R.id.mapView);
+        map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
         map.getMapAsync(this);
     }
 
