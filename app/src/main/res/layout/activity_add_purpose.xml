@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activivty_horizontal_margin_large">
+
+        <TextView
+            android:id="@+id/txt_place_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/adress"
+            android:textColor="@color/colorTextSecondary" />
+
+        <EditText
+            android:id="@+id/txt_place"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_place_label" />
+
+        <TextView
+            android:id="@+id/txt_phone_number_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_place"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/phone_number"
+            android:textColor="@color/colorTextSecondary" />
+
+        <EditText
+            android:id="@+id/txt_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/txt_phone_number_label" />
+
+        <TextView
+            android:id="@+id/txt_description_label"
+            android:text="@string/description"
+            android:layout_below="@id/txt_phone_number"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/txt_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/txt_description_label"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btn_confirm_add_purpose"
+            android:text="@string/add_purpose"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
