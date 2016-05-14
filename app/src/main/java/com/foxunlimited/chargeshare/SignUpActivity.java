@@ -18,10 +18,10 @@ public class SignUpActivity extends AppCompatActivity {
     EditText txtEmail;
     EditText txtPassword;
     EditText txtConfirmPassword;
-    private User user;
+    private  static User user;
     Button btnSignUp;
 
-    public User getUser(){
+    public static User getUser(){
         return user;
     }
 

@@ -1,6 +1,9 @@
 package com.foxunlimited.chargeshare;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,9 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
 
 
 /**
@@ -24,12 +30,17 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 public class AddPurposeActivity extends AppCompatActivity {
 
     EditText placeView;
-
+    EditText phoneNumberView;
+    EditText description;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_purpose);
         placeView = (EditText) findViewById(R.id.txt_place);
+        phoneNumberView = (EditText)findViewById(R.id.txt_phone_number);
+        description = (EditText)findViewById(R.id.txt_description);
+        user = App.getUser();
         placeView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -46,10 +57,17 @@ public class AddPurposeActivity extends AppCompatActivity {
         });
         //Nathalie, add!!!
         Button confirmAddPurpose = (Button)findViewById(R.id.btn_confirm_add_purpose);
+        if(user == null){
+            confirmAddPurpose.setEnabled(false);
+        }
         confirmAddPurpose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add Purpose in Base, Nathalie
+                PurposeInfo purposeInfo = new PurposeInfo(getLocationFromAddress(AddPurposeActivity.this, placeView.getText().toString()),
+                        phoneNumberView.getText().toString(),description.getText().toString());
+                UserFirebaseManager.AddPurpose(user, getLocationFromAddress(AddPurposeActivity.this,
+                        placeView.getText().toString()), phoneNumberView.getText().toString(),description.getText().toString());
+                App.getUser().purposes.add(purposeInfo);
             }
         });
     }
@@ -91,5 +109,29 @@ public class AddPurposeActivity extends AppCompatActivity {
 
             }
         }
+    }
+    public LatLng getLocationFromAddress(Context context,String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 }
