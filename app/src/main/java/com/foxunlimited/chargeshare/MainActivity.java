@@ -4,6 +4,8 @@ package com.foxunlimited.chargeshare;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         tabs.addTab(spec);
 
         spec = tabs.newTabSpec("tag3");
-        //spec.setIndicator(n)
+        spec.setIndicator("Log Out");
 
         tabs.setCurrentTab(0);
 
