@@ -107,7 +107,7 @@ public class UserFirebaseManager {
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
         user.purposes.add(info);
-        Firebase userRef = ref.child("users").child(user.userId).child("purposes").push();
+        Firebase userRef = ref.child("users").child(user.userId).child("purposes");
         userRef.setValue(info);
     }
 
@@ -137,24 +137,21 @@ public class UserFirebaseManager {
 
     public static void GetProposes(final User user) {
         Firebase usersref = ref.child("users").child(user.userId).child("purpose");
-        final PurposeInfo[] purposes = {null};
         usersref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                int countPurposes = 0;
+                List<PurposeInfo> mutableList = new ArrayList<PurposeInfo>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     PurposeInfo info = postSnapshot.getValue(PurposeInfo.class);
-                    purposes[countPurposes] = info;
-                    countPurposes++;
+                    mutableList.add(info);
                 }
+                user.purposes = mutableList;
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        List<PurposeInfo> all_purposes = Arrays.asList(purposes);
-        user.purposes = all_purposes;
     }
 
     public static void GetUserById(final String id, final GetUserListener userListener) {
