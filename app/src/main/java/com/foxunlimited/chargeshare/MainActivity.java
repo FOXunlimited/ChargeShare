@@ -2,6 +2,7 @@ package com.foxunlimited.chargeshare;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,21 +14,33 @@ import android.location.Geocoder;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -42,74 +55,90 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    class MarkerInfo {
-        Marker marker;
-        int i;
-
-        public MarkerInfo(Marker marker, int i) {
-            this.marker = marker;
-            this.i = i;
-        }
-    }
-
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
-    LinearLayout listMyProposes;
-    RelativeLayout yourPurpose;
+    LinearLayout yourPurpose;
+    LinearLayout editPurpose;
+    Button btnAddPurpose;
+    EditText placeView;
+    EditText phoneNumberView;
+    EditText description;
+    User user;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.foxunlimited.chargeshare/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.foxunlimited.chargeshare/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        placeView = (EditText) findViewById(R.id.txt_place);
+        placeView.setOnClickListener(new View.OnClickListener() {
 
-        listMyProposes = (LinearLayout) findViewById(R.id.list_my_proposes);
-        //Adding your proposes to activity
-
-/*
-        for(int i = 0;App.getUser().purposes!=null && i < App.getUser().purposes.size();i++){
-            LinearLayout rootCard = new LinearLayout(MainActivity.this);
-            rootCard.setOrientation(LinearLayout.VERTICAL);
-            rootCard.setBackgroundColor(Color.argb(255,33,150,243));
-            LinearLayout.LayoutParams paramsForRoot = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            paramsForRoot.setMargins(16, 16, 16, 0);
-
-            TextView phoneNumber = new TextView(MainActivity.this);
-            phoneNumber.setPadding(16, 16, 16, 0);
-            phoneNumber.setText(App.getUser().purposes.get(i).phone);
-            phoneNumber.setTextColor(Color.WHITE);
-            phoneNumber.setId(i);
-
-            TextView adress = new TextView(MainActivity.this);
-            adress.setText(getCompleteAddressString(App.getUser().purposes.get(i).Lat, App.getUser().purposes.get(i).Lng));
-            adress.setTextColor(Color.WHITE);
-            adress.setPadding(16, 16, 16, 0);
-            adress.setId(i + (App.getUser().purposes.size()));
-
-            TextView description = new TextView(MainActivity.this);
-            description.setText(App.getUser().purposes.get(i).description);
-            description.setTextColor(Color.WHITE);
-            description.setPadding(16, 16, 16, 0);
-            description.setId(i + (App.getUser().purposes.size() * 2));
-
-            rootCard.addView(phoneNumber);
-            rootCard.addView(adress);
-            rootCard.addView(description);
-
-            listMyProposes.addView(rootCard, paramsForRoot);
-        }
-*/
-        yourPurpose = (RelativeLayout)findViewById(R.id.your_purpose);
-        yourPurpose.setHovered(true);
-
-
-
+            @Override
+            public void onClick(View v) {
+                openAutocompleteActivity();
+            }
+        });
+        phoneNumberView = (EditText) findViewById(R.id.txt_phone_number);
+        description = (EditText) findViewById(R.id.txt_description);
+        user = App.getUser();
+        btnAddPurpose = (Button) findViewById(R.id.btn_add_purpose);
+        editPurpose = (LinearLayout) findViewById(R.id.edit_purpose);
         //Adding purposes intent
-        Button btnAddPurpose = (Button) findViewById(R.id.btn_add_purpose);
         btnAddPurpose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AddPurposeActivity.class);
-                startActivity(i);
+                PurposeInfo purposeInfo = new PurposeInfo(getLocationFromAddress(MainActivity.this, placeView.getText().toString()),
+                        phoneNumberView.getText().toString(), description.getText().toString());
+                UserFirebaseManager.AddPurpose(user, getLocationFromAddress(MainActivity.this,
+                        placeView.getText().toString()), phoneNumberView.getText().toString(), description.getText().toString());
+                App.getUser().Lat = getLocationFromAddress(MainActivity.this, placeView.getText().toString()).latitude;
+                App.getUser().Lng = getLocationFromAddress(MainActivity.this, placeView.getText().toString()).longitude;
+                App.getUser().phone = phoneNumberView.getText().toString();
+                App.getUser().description = description.getText().toString();
             }
         });
 
@@ -137,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .rotateGesturesEnabled(true);
         map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
         map.getMapAsync(this);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -182,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
+
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -201,5 +234,78 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
         return strAdd;
+    }
+
+    private void openAutocompleteActivity() {
+        try {
+            // The autocomplete activity requires Google Play Services to be available. The intent
+            // builder checks this and throws an exception if it is not the case.
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this);
+            startActivityForResult(intent, 1);
+        } catch (GooglePlayServicesRepairableException e) {
+            // Indicates that Google Play Services is either not installed or not up to date. Prompt
+            // the user to correct the issue.
+            GoogleApiAvailability.getInstance().getErrorDialog(this, e.getConnectionStatusCode(),
+                    0 /* requestCode */).show();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // Indicates that Google Play Services is not available and the problem is not easily
+            // resolvable.
+            String message = "Google Play Services is not available: " +
+                    GoogleApiAvailability.getInstance().getErrorString(e.errorCode);
+
+            Log.e("asf", message);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check that the result was from the autocomplete widget.
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // Get the user's selected place from the Intent.
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                Log.i("autocomplete", "Place Selected: " + place.getName());
+                placeView.setText(place.getAddress());
+
+            }
+        }
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
+    class MarkerInfo {
+        Marker marker;
+        int i;
+
+        public MarkerInfo(Marker marker, int i) {
+            this.marker = marker;
+            this.i = i;
+        }
     }
 }

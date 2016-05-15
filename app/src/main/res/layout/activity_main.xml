@@ -43,6 +43,7 @@
                     android:id="@+id/my_purposes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
                     android:orientation="vertical">
                     <ScrollView
                         android:id="@+id/matches_scroll_view"
@@ -56,73 +57,63 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:id="@+id/list_my_proposes"
+                                android:id="@+id/edit_purpose"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="16dp"
                                 android:orientation="vertical">
-                                <RelativeLayout
-                                    android:id="@+id/your_purpose"
+
+                                <TextView
+                                    android:id="@+id/txt_place_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/adress"
+                                    android:textColor="@color/colorTextSecondary" />
+
+                                <EditText
+                                    android:id="@+id/txt_place"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorTextPrimary" />
+
+                                <TextView
+                                    android:id="@+id/txt_phone_number_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                                    android:text="@string/phone_number"
+                                    android:textColor="@color/colorTextSecondary" />
+
+                                <EditText
+                                    android:id="@+id/txt_phone_number"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:textColor="@color/colorTextPrimary" />
+
+                                <TextView
+                                    android:id="@+id/txt_description_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/description"
+                                    android:textColor="@color/colorTextSecondary" />
+
+                                <EditText
+                                    android:id="@+id/txt_description"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_margin="@dimen/activivty_horizontal_margin_large">
-
-                                    <TextView
-                                        android:id="@+id/txt_purposer_name"
-                                        android:textColor="@color/colorTextPrimary"
-                                        android:layout_width="match_parent"
-                                        android:textAlignment="center"
-                                        android:textSize="32sp"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
-                                        android:id="@+id/txt_purposer_phone_number"
-                                        android:layout_width="match_parent"
-                                        android:textSize="24sp"
-                                        android:layout_below="@+id/txt_purposer_name"
-                                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                                        android:textColor="@color/colorTextSecondary"
-                                        android:layout_height="wrap_content" />
-                                    <View
-                                        android:id="@+id/purpose_first_separator"
-                                        android:layout_below="@id/txt_purposer_phone_number"
-                                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                                        android:layout_width="match_parent"
-                                        android:background="@color/colorTextSecondary"
-                                        android:layout_height="3dp">
-
-                                    </View>
-                                    <TextView
-                                        android:id="@+id/txt_purposer_adress"
-                                        android:textColor="@color/colorTextSecondary"
-                                        android:textSize="24sp"
-                                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                                        android:layout_below="@id/purpose_first_separator"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
-                                    <View
-                                        android:id="@+id/purpose_second_separator"
-                                        android:layout_width="match_parent"
-                                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                                        android:layout_below="@id/txt_purposer_adress"
-                                        android:background="@color/colorTextSecondary"
-                                        android:layout_height="3dp">
-
-                                    </View>
-                                    <TextView
-                                        android:id="@+id/txt_purposer_description"
-                                        android:textColor="@color/colorTextSecondary"
-                                        android:textSize="24sp"
-                                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                                        android:layout_below="@id/purpose_second_separator"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent" />
-                                </RelativeLayout>
+                                    android:layout_gravity="center_horizontal"
+                                    android:ems="10"
+                                    android:inputType="textMultiLine"
+                                    android:textColor="@color/colorTextPrimary" />
                             </LinearLayout>
-
                             <Button
                                 android:id="@+id/btn_add_purpose"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/activity_vertical_margin"
+                                android:layout_marginBottom="16dp"
                                 android:background="@color/colorPrimaryDark"
                                 android:text="@string/add_purpose"
                                 android:textColor="@color/colorTextPrimary" />

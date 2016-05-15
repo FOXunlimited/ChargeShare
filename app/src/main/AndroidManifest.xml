@@ -26,10 +26,6 @@
 
         </activity>
 
-        <activity android:name=".AddPurposeActivity">
-
-        </activity>
-
         <activity android:name=".PurposeActivity">
 
         </activity>

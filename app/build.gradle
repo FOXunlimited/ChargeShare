@@ -31,4 +31,5 @@ dependencies {
     compile "com.android.support:support-v13:23.1.1"
     compile 'com.github.andreyrage:rightutils:2.0.2'
 
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
