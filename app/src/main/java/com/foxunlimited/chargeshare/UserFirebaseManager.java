@@ -109,13 +109,13 @@ public class UserFirebaseManager {
         //String id = userRef.getKey();
         //user.purposes.add(info);
         Firebase userRef;
-        userRef =  ref.child("users").child(user.userId).child("purposes").child(user.userId).child("Lat");
+        userRef =  ref.child("users").child(user.userId).child(user.userId).child("Lat");
         userRef.setValue(info.Lat);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("Lng");
+        userRef = ref.child("users").child(user.userId).child(user.userId).child("Lng");
         userRef.setValue(info.Lng);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("phone");
+        userRef = ref.child("users").child(user.userId).child(user.userId).child("phone");
         userRef.setValue(info.phone);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("description");
+        userRef = ref.child("users").child(user.userId).child(user.userId).child("description");
         userRef.setValue(info.description);
     }
 
