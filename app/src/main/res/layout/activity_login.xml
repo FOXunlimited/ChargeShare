@@ -8,17 +8,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activivty_horizontal_margin_large"
-        android:layout_marginRight="@dimen/activivty_horizontal_margin_large"
-        android:layout_marginTop="@dimen/activivty_vertical_margin_large">
+        android:layout_margin="16dp">
 
         <ImageView
             android:id="@+id/img_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
             android:src="@drawable/chargesharelogo"/>
 
         <TextView
