@@ -6,10 +6,10 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by bewus on 5/14/2016.
  */
     public class PurposeInfo{
-        double Lat;
-        double Lng;
-        String phone;
-        String description;
+        public double Lat;
+        public double Lng;
+        public String phone;
+        public String description;
 
         public PurposeInfo()
         {

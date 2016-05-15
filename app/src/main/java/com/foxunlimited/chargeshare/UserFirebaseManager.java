@@ -107,8 +107,16 @@ public class UserFirebaseManager {
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
         user.purposes.add(info);
-        Firebase userRef = ref.child("users").child(user.userId).child("purposes").push();
-        userRef.setValue(info);
+        Firebase userRef =  ref.child("users").child(user.userId).child("purposes").push();
+        String id = userRef.getKey();
+        userRef =  ref.child("users").child(user.userId).child("purposes").child(id).child("Lat");
+        userRef.setValue(info.Lat);
+        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("Lng");
+        userRef.setValue(info.Lng);
+        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("phone");
+        userRef.setValue(info.phone);
+        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("description");
+        userRef.setValue(info.description);
     }
 
     public static void  GetAllUsers(final GetProposesListener listener) {
