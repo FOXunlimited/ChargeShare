@@ -4,9 +4,12 @@ package com.foxunlimited.chargeshare;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,9 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 
 import com.google.android.gms.maps.*;
@@ -25,8 +32,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -45,11 +55,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
+    LinearLayout listMyProposes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listMyProposes = (LinearLayout)findViewById(R.id.list_my_proposes);
+        //Adding your proposes to activity
+        for(int i = 0;i < App.getUser().purposes.size();i++){
+            LinearLayout rootCard = new LinearLayout(MainActivity.this);
+            rootCard.setOrientation(LinearLayout.VERTICAL);
+            rootCard.setBackgroundColor(Color.argb(255,33,150,243));
+            LinearLayout.LayoutParams paramsForRoot = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            paramsForRoot.setMargins(16, 16, 16, 0);
+
+            TextView phoneNumber = new TextView(MainActivity.this);
+            phoneNumber.setPadding(16, 16, 16, 0);
+            phoneNumber.setText(App.getUser().purposes.get(i).phone);
+            phoneNumber.setTextColor(Color.WHITE);
+            phoneNumber.setId(i);
+
+            TextView adress = new TextView(MainActivity.this);
+            adress.setText(getCompleteAddressString(App.getUser().purposes.get(i).coords.latitude, App.getUser().purposes.get(i).coords.longitude));
+            adress.setTextColor(Color.WHITE);
+            adress.setPadding(16, 16, 16, 0);
+            adress.setId(i + (App.getUser().purposes.size()));
+
+            TextView description = new TextView(MainActivity.this);
+            description.setText(App.getUser().purposes.get(i).description);
+            description.setTextColor(Color.WHITE);
+            description.setPadding(16, 16, 16, 0);
+            description.setId(i + (App.getUser().purposes.size() * 2));
+
+            rootCard.addView(phoneNumber);
+            rootCard.addView(adress);
+            rootCard.addView(description);
+
+            listMyProposes.addView(rootCard, paramsForRoot);
+        }
+
 
         //Adding purposes intent
         Button btnAddPurpose = (Button) findViewById(R.id.btn_add_purpose);
@@ -131,5 +177,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
         }
+    }
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString();
+            } else {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return strAdd;
     }
 }

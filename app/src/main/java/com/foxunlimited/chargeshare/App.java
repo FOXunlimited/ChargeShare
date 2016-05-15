@@ -17,6 +17,15 @@ public class App extends Application {
     private static User user;
 
     public static User getUser(){
+        user = new User("mail", "pass", "hdfh");
+        user.purposes = new ArrayList<PurposeInfo>();
+        for(int i=0;i<10;i++){
+            user.mail = "dsadsa";
+            user.nick = "fdsfsdf";
+            user.pass = "fsdfsd";
+            user.userId = "fsdfsd";
+            user.purposes.add(new PurposeInfo(new LatLng(50*i*0.225565642,50*i*0.45478744+20), "380938 "+ i + "567", "My name is dfgdfhh"));
+        }
         return user;
     }
     public static void setUser(User usr){
