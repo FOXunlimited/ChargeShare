@@ -19,7 +19,11 @@ import android.widget.TabHost;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -88,5 +92,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng latLng = new LatLng(latitude,longitude);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
             }
+        ArrayList<User> users = new ArrayList<User>();
+        for(int i=0;i<users.size();i++){
+            for(int j=0;j< users.get(i).purposes.size();j++){
+                final int finalI = i;
+                final int finalJ = j;
+                final Marker marker = googleMap.addMarker(new MarkerOptions()
+                .position(users.get(i).purposes.get(j).coords));
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker mark) {
+                        if(mark.equals(marker)){
+                            Intent i = new Intent(MainActivity.this,PurposeActivity.class);
+                            i.putExtra("user_index",finalI);
+                            i.putExtra("purpose_index",finalJ);
+                            startActivity(i);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+        }
     }
 }
