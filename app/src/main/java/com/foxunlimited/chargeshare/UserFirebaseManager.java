@@ -1,5 +1,6 @@
 package com.foxunlimited.chargeshare;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -21,13 +22,21 @@ import java.util.Map;
 public class UserFirebaseManager {
 
     interface UserLoginListener {
-        void onSuccess();
+        void onSuccess(String id);
+
         void onFailure();
     }
 
-    interface UserAuthenticationListener{
-        void onAuthentication();
-        void onAuthenticationError();
+    interface GetUserListener {
+        void onDone(User user);
+
+        void onFailure();
+    }
+
+    interface GetProposesListener{
+        void onGet(List <User> proposes);
+
+        void onCancel();
 
     }
 
@@ -44,7 +53,11 @@ public class UserFirebaseManager {
                 usersRef.setValue(user.userId);
                 usersRef = ref.child("users").child(user.userId).child("nick");
                 usersRef.setValue(user.nick);
-                listener.onSuccess();
+                usersRef = ref.child("users").child(user.userId).child("mail");
+                usersRef.setValue(user.mail);
+                usersRef = ref.child("users").child(user.userId).child("pass");
+                usersRef.setValue(user.pass);
+                listener.onSuccess(user.userId);
             }
 
             @Override
@@ -64,19 +77,13 @@ public class UserFirebaseManager {
         });
     }
 
-    public static User LoginUser(String mail, String pass, final UserAuthenticationListener usrAuthListener) {
-
-        final User[] usr = {new User()};
-        usr[0].mail = mail;
-        usr[0].pass = pass;
+    public static void LoginUser(final String mail, final String pass, final UserLoginListener loginListener) {
         ref.authWithPassword(mail, pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                usr[0].userId = (String)authData.getUid();
-                Firebase usersref = ref.child("users").child(usr[0].userId).child("nick");
-                usr[0].nick = usersref.toString();
-                GetProposes(usr[0]);
-                usrAuthListener.onAuthentication();
+
+                loginListener.onSuccess(authData.getUid());
+
             }
 
             @Override
@@ -91,10 +98,9 @@ public class UserFirebaseManager {
                     default:
                         Toast.makeText(App.getContext(), firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                usrAuthListener.onAuthenticationError();
+                loginListener.onFailure();
             }
         });
-        return usr[0];
     }
 
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
@@ -104,31 +110,31 @@ public class UserFirebaseManager {
         userRef.setValue(info);
     }
 
-    public static List <User> GetAllUsers()
-    {
+    public static void  GetAllUsers(final GetProposesListener listener) {
         Firebase usersref = ref.child("users");
         final User[] users = {null};
         usersref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 int countUsers = 0;
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     User user = postSnapshot.getValue(User.class);
                     GetProposes(user);
                     users[countUsers] = user;
                     countUsers++;
                 }
+                List<User> allUsers = Arrays.asList(users);
+                listener.onGet(allUsers);
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancel();
             }
         });
-        List <User> allUsers = Arrays.asList(users);
-        return allUsers;
     }
 
-    public static void GetProposes(User user)
-    {
+    public static void GetProposes(final User user) {
         Firebase usersref = ref.child("users").child(user.userId).child("purpose");
         final PurposeInfo[] purposes = {null};
         usersref.addValueEventListener(new ValueEventListener() {
@@ -146,9 +152,22 @@ public class UserFirebaseManager {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        List <PurposeInfo> all_purposes = Arrays.asList(purposes);
+        List<PurposeInfo> all_purposes = Arrays.asList(purposes);
         user.purposes = all_purposes;
     }
 
-    // public void RemovePropose
+    public static void GetUserById(final String id, final GetUserListener userListener) {
+        ref.child("users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                userListener.onDone(dataSnapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                userListener.onFailure();
+            }
+        });
+    }
 }

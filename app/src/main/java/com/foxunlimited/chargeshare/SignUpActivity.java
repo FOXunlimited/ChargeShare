@@ -41,7 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user = new User(txtEmail.getText().toString(), txtPassword.getText().toString(), txtName.getText().toString());
                     UserFirebaseManager.CreateUser(user, new UserFirebaseManager.UserLoginListener() {
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(String id) {
                             Intent i  = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(i);
                         }

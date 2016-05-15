@@ -3,6 +3,7 @@ package com.foxunlimited.chargeshare;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,27 +34,40 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         */
-        Button btnLogin = (Button)findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Button btnLogin = (Button) findViewById(R.id.btn_login);
+        if(btnLogin != null) {
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                App.setUser(UserFirebaseManager.LoginUser(((EditText)findViewById(R.id.txt_email)).getText().toString(),((EditText)findViewById(R.id.txt_password)).getText().toString(), new UserFirebaseManager.UserAuthenticationListener() {
-                    @Override
-                    public void onAuthentication() {
-    //                    Prefs.saveUser(App.getUser());
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
+                    UserFirebaseManager.LoginUser(((EditText) findViewById(R.id.txt_email)).getText().toString(), ((EditText) findViewById(R.id.txt_password)).getText().toString(), new UserFirebaseManager.UserLoginListener() {
+                        @Override
+                        public void onSuccess(String id) {
+                            UserFirebaseManager.GetUserById(id, new UserFirebaseManager.GetUserListener() {
+                                @Override
+                                public void onDone(User user) {
+                                    App.setUser(user);
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
 
-                    @Override
-                    public void onAuthenticationError() {
-                    }
-                }));
+                                @Override
+                                public void onFailure() {
 
-            }
-        });
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    });
+
+                }
+            });
+        }
 
         TextView signUp = (TextView) findViewById(R.id.sign_up);
         signUp.setClickable(true);
@@ -66,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        TextView skip = (TextView)findViewById(R.id.txt_skip_login);
+        TextView skip = (TextView) findViewById(R.id.txt_skip_login);
         skip.setClickable(true);
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
