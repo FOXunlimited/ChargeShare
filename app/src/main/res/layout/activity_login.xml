@@ -30,6 +30,7 @@
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorTextPrimary"
             android:layout_below="@+id/txt_email_label" />
 
         <TextView
@@ -45,6 +46,7 @@
             android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorTextPrimary"
             android:layout_below="@+id/txt_password_label"
             android:password="true" />
 
