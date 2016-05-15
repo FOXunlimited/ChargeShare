@@ -11,6 +11,7 @@ import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class UserFirebaseManager {
     }
 
     interface GetProposesListener{
-        void onGet(List <User> proposes);
+        void onGet(ArrayList<User> proposes);
 
         void onCancel();
 
@@ -123,7 +124,7 @@ public class UserFirebaseManager {
                     users[countUsers] = user;
                     countUsers++;
                 }
-                List<User> allUsers = Arrays.asList(users);
+                ArrayList<User> allUsers = (ArrayList)Arrays.asList(users);
                 listener.onGet(allUsers);
             }
 
