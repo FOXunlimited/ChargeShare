@@ -161,7 +161,9 @@ public class UserFirebaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                userListener.onDone(dataSnapshot.getValue(User.class));
+                User user = dataSnapshot.getValue(User.class);
+                GetProposes(user);
+                userListener.onDone(user);
             }
 
             @Override
