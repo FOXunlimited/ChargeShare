@@ -15,6 +15,7 @@ import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     EditText phoneNumberView;
     EditText description;
     User user;
+    boolean exit = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -207,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Intent intent = new Intent(App.getContext(), PurposeActivity.class);
                         intent.putExtra("user_index", markerInfos.get(i).i);
                         startActivity(intent);
+                        finish();
                         return true;
                     }
                 }
@@ -297,6 +304,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         return p1;
+    }
+
+    private void CheckChanges() {
+        Firebase usersref = UserFirebaseManager.ref;
+        usersref.child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<User> mutableList = new ArrayList<User>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+//GetProposes(user);
+                    mutableList.add(user);
+                }
+                App.users = (ArrayList) mutableList;
+                map.getMapAsync(MainActivity.this);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!exit) {
+            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 2000);
+        } else {
+            super.onBackPressed();
+            System.exit(0);
+        }
     }
 
     class MarkerInfo {
