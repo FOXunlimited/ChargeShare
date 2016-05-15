@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -21,20 +22,37 @@ import android.widget.TabHost;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    class MarkerInfo {
+        Marker marker;
+        int i;
+        int j;
+
+        public MarkerInfo(Marker marker, int i, int j) {
+            this.marker = marker;
+            this.i = i;
+            this.j = j;
+        }
+    }
+
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
-    boolean loginStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Adding purposes intent
-        Button btnAddPurpose = (Button)findViewById(R.id.btn_add_purpose);
+        Button btnAddPurpose = (Button) findViewById(R.id.btn_add_purpose);
         btnAddPurpose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,8 +103,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            LatLng latLng = new LatLng(latitude,longitude);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
+            LatLng latLng = new LatLng(latitude, longitude);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        }
+        ArrayList<User> users = App.getTestArray();
+        final ArrayList<MarkerInfo> markerInfos = new ArrayList<MarkerInfo>();
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = 0; j < users.get(i).purposes.size(); j++) {
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(users.get(i).purposes.get(j).coords)
+                        .draggable(false));
+                markerInfos.add(new MarkerInfo(marker, i, j));
             }
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker mark) {
+                    for (int i = 0; i < markerInfos.size(); i++) {
+                        if (markerInfos.get(i).marker.equals(mark)) {
+                            Intent intent = new Intent(App.getContext(), PurposeActivity.class);
+                            intent.putExtra("user_index", markerInfos.get(i).i);
+                            intent.putExtra("purpose_index", markerInfos.get(i).j);
+                            startActivity(intent);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 }
