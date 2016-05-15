@@ -6,7 +6,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by bewus on 5/14/2016.
  */
     public class PurposeInfo{
-        LatLng coords;
+        double Lat;
+        double Lng;
         String phone;
         String description;
 
@@ -16,7 +17,8 @@ import com.google.android.gms.maps.model.LatLng;
         }
 
         public PurposeInfo(LatLng coords, String phone, String description){
-            this.coords = coords;
+            Lat = coords.latitude;
+            Lng = coords.longitude;
             this.phone = phone;
             this.description = description;
         }

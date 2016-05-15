@@ -35,7 +35,7 @@ public class PurposeActivity extends AppCompatActivity {
         PurposeInfo purposeInfo = App.getUsersArray().get(bundle.getInt("user_index")).purposes.get(bundle.getInt("purpose_index"));
         purposerName.setText(App.getUsersArray().get(bundle.getInt("user_index")).nick);
         purposerNumber.setText(purposeInfo.phone);
-        purposerAdress.setText(getCompleteAddressString(purposeInfo.coords.latitude, purposeInfo.coords.longitude));
+        purposerAdress.setText(getCompleteAddressString(purposeInfo.Lat, purposeInfo.Lng));
         purposerDescription.setText(purposeInfo.description);
     }
 
