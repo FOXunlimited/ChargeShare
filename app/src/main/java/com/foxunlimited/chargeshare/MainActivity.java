@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
     boolean loginStatus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         spec = tabs.newTabSpec("tag3");
         spec.setIndicator("Log Out");
-
         tabs.setCurrentTab(0);
 
         /*Map initialization*/
