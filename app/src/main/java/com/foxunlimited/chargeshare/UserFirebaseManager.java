@@ -107,7 +107,7 @@ public class UserFirebaseManager {
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
         user.purposes.add(info);
-        Firebase userRef = ref.child("users").child(user.userId).child("purposes");
+        Firebase userRef = ref.child("users").child(user.userId).child("purposes").push();
         userRef.setValue(info);
     }
 
@@ -155,7 +155,6 @@ public class UserFirebaseManager {
         ref.child("users").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 User user = dataSnapshot.getValue(User.class);
                 GetProposes(user);
                 userListener.onDone(user);
