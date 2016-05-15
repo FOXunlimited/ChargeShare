@@ -106,16 +106,16 @@ public class UserFirebaseManager {
 
     public static void AddPurpose(User user, LatLng coords, String phone, String description) {
         PurposeInfo info = new PurposeInfo(coords, phone, description);
-        user.purposes.add(info);
-        Firebase userRef =  ref.child("users").child(user.userId).child("purposes").push();
-        String id = userRef.getKey();
-        userRef =  ref.child("users").child(user.userId).child("purposes").child(id).child("Lat");
+        //String id = userRef.getKey();
+        //user.purposes.add(info);
+        Firebase userRef;
+        userRef =  ref.child("users").child(user.userId).child("purposes").child(user.userId).child("Lat");
         userRef.setValue(info.Lat);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("Lng");
+        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("Lng");
         userRef.setValue(info.Lng);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("phone");
+        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("phone");
         userRef.setValue(info.phone);
-        userRef = ref.child("users").child(user.userId).child("purposes").child(id).child("description");
+        userRef = ref.child("users").child(user.userId).child("purposes").child(user.userId).child("description");
         userRef.setValue(info.description);
     }
 
@@ -127,7 +127,7 @@ public class UserFirebaseManager {
                 List<User> mutableList = new ArrayList<User>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     User user = postSnapshot.getValue(User.class);
-                    GetProposes(user);
+                    //GetProposes(user);
                     mutableList.add(user);
                 }
                 listener.onGet((ArrayList)mutableList);
@@ -140,7 +140,7 @@ public class UserFirebaseManager {
         });
     }
 
-    public static void GetProposes(final User user) {
+    /*public static void GetProposes(final User user) {
         Firebase usersref = ref.child("users").child(user.userId).child("purpose");
         usersref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -157,14 +157,14 @@ public class UserFirebaseManager {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-    }
+    }*/
 
     public static void GetUserById(final String id, final GetUserListener userListener) {
         ref.child("users").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                GetProposes(user);
+                //GetProposes(user);
                 userListener.onDone(user);
             }
 

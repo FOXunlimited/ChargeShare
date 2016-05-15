@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,7 +16,10 @@ public class User implements Parcelable {
     public String mail;
     public String pass;
     public String nick;
-    public List<PurposeInfo> purposes;
+    public double Lat;
+    public double Lng;
+    public String phone;
+    public String description;
 
     public User()
     {
@@ -25,6 +29,10 @@ public class User implements Parcelable {
         this.mail = mail;
         this.pass = pass;
         this.nick = nick;
+        Lat = 0;
+        Lng = 0;
+        phone = null;
+        description = null;
     }
 
     protected User(Parcel in) {
