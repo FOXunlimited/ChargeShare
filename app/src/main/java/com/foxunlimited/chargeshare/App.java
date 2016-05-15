@@ -39,15 +39,16 @@ public class App extends Application {
         Firebase.setAndroidContext(this);
     }
 
-    public static List<User> getTestArray() {
+    public static ArrayList<User> getTestArray() {
         ArrayList<User> testArray = new ArrayList<User>();
         User user = new User();
+        user.purposes = new ArrayList<PurposeInfo>();
         for(int i=0;i<10;i++){
             user.mail = "dsadsa";
             user.nick = "fdsfsdf";
             user.pass = "fsdfsd";
             user.userId = "fsdfsd";
-            user.purposes.add(new PurposeInfo(new LatLng(50*i,50+i), "380938 "+ i + "567", "My name is dfgdfhh"));
+            user.purposes.add(new PurposeInfo(new LatLng(50*i*0.225565642,50*i*0.45478744+20), "380938 "+ i + "567", "My name is dfgdfhh"));
         }
         testArray.add(user);
         return testArray;
