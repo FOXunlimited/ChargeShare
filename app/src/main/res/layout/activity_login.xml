@@ -15,17 +15,17 @@
 
         <ImageView
             android:id="@+id/img_logo"
-            android:scaleX="0.75"
-            android:scaleY="0.75"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/chargesharelogo"/>
 
         <TextView
             android:id="@+id/txt_email_label"
             android:layout_width="wrap_content"
-            android:layout_below="@id/img_logo"
             android:layout_height="wrap_content"
+            android:layout_below="@id/img_logo"
             android:text="@string/e_mail"
             android:textColor="@color/colorTextSecondary" />
 
@@ -46,10 +46,10 @@
 
         <EditText
             android:id="@+id/txt_password"
-            android:password="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_password_label" />
+            android:layout_below="@+id/txt_password_label"
+            android:password="true" />
 
         <Button
             android:id="@+id/btn_login"
