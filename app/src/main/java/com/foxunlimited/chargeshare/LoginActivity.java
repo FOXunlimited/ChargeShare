@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDone(User user) {
                                     App.setUser(user);
+                                    UserFirebaseManager.GetProposes(user);
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
