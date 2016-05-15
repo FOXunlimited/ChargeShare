@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             phoneNumber.setId(i);
 
             TextView adress = new TextView(MainActivity.this);
-            adress.setText(getCompleteAddressString(App.getUser().purposes.get(i).coords.latitude, App.getUser().purposes.get(i).coords.longitude));
+            adress.setText(getCompleteAddressString(App.getUser().purposes.get(i).Lat, App.getUser().purposes.get(i).Lng));
             adress.setTextColor(Color.WHITE);
             adress.setPadding(16, 16, 16, 0);
             adress.setId(i + (App.getUser().purposes.size()));
@@ -156,8 +156,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final ArrayList<MarkerInfo> markerInfos = new ArrayList<MarkerInfo>();
         for (int i = 0;users !=null && i < users.size(); i++) {
             for (int j = 0;users.get(i).purposes!=null && j < users.get(i).purposes.size(); j++) {
+                LatLng latLng = new LatLng(users.get(i).purposes.get(j).Lat,users.get(i).purposes.get(j).Lng);
                 Marker marker = googleMap.addMarker(new MarkerOptions()
-                        .position(users.get(i).purposes.get(j).coords)
+                        .position(latLng)
                         .draggable(false));
                 markerInfos.add(new MarkerInfo(marker, i, j));
             }
