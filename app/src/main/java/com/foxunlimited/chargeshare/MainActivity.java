@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         listMyProposes = (LinearLayout)findViewById(R.id.list_my_proposes);
         //Adding your proposes to activity
-        for(int i = 0;i < App.getUser().purposes.size();i++){
+        for(int i = 0;App.getUser().purposes!=null && i < App.getUser().purposes.size();i++){
             LinearLayout rootCard = new LinearLayout(MainActivity.this);
             rootCard.setOrientation(LinearLayout.VERTICAL);
             rootCard.setBackgroundColor(Color.argb(255,33,150,243));
@@ -152,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng latLng = new LatLng(latitude, longitude);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         }
-        ArrayList<User> users = App.getTestArray();
+        ArrayList<User> users = App.getUsersArray();
         final ArrayList<MarkerInfo> markerInfos = new ArrayList<MarkerInfo>();
-        for (int i = 0; i < users.size(); i++) {
-            for (int j = 0; j < users.get(i).purposes.size(); j++) {
+        for (int i = 0;users !=null && i < users.size(); i++) {
+            for (int j = 0;users.get(i).purposes!=null && j < users.get(i).purposes.size(); j++) {
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(users.get(i).purposes.get(j).coords)
                         .draggable(false));
