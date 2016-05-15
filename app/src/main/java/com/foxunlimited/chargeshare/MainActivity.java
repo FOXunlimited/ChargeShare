@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
     LinearLayout listMyProposes;
+    RelativeLayout yourPurpose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             listMyProposes.addView(rootCard, paramsForRoot);
         }
 */
+        yourPurpose = (RelativeLayout)findViewById(R.id.your_purpose);
+        yourPurpose.setHovered(true);
+
 
 
         //Adding purposes intent
