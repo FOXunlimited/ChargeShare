@@ -113,19 +113,16 @@ public class UserFirebaseManager {
 
     public static void  GetAllUsers(final GetProposesListener listener) {
         Firebase usersref = ref.child("users");
-        final User[] users = {null};
         usersref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                int countUsers = 0;
+                List<User> mutableList = new ArrayList<User>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     User user = postSnapshot.getValue(User.class);
                     GetProposes(user);
-                    users[countUsers] = user;
-                    countUsers++;
+                    mutableList.add(user);
                 }
-                ArrayList<User> allUsers = (ArrayList)Arrays.asList(users);
-                listener.onGet(allUsers);
+                listener.onGet((ArrayList)mutableList);
             }
 
             @Override
