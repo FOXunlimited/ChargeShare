@@ -13,9 +13,18 @@
         android:layout_marginRight="@dimen/activivty_horizontal_margin_large"
         android:layout_marginTop="@dimen/activivty_vertical_margin_large">
 
+        <ImageView
+            android:id="@+id/img_logo"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chargesharelogo"/>
+
         <TextView
             android:id="@+id/txt_email_label"
             android:layout_width="wrap_content"
+            android:layout_below="@id/img_logo"
             android:layout_height="wrap_content"
             android:text="@string/e_mail"
             android:textColor="@color/colorTextSecondary" />

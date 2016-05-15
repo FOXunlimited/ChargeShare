@@ -33,7 +33,7 @@ public class PurposeActivity extends AppCompatActivity {
         purposerDescription = (TextView)findViewById(R.id.txt_purposer_description);
         Bundle bundle = getIntent().getExtras();
         PurposeInfo purposeInfo = App.getTestArray().get(bundle.getInt("user_index")).purposes.get(bundle.getInt("purpose_index"));
-        //purposerName.setText();
+        purposerName.setText(App.getTestArray().get(bundle.getInt("user_index")).nick);
         purposerNumber.setText(purposeInfo.phone);
         purposerAdress.setText(getCompleteAddressString(purposeInfo.coords.latitude, purposeInfo.coords.longitude));
         purposerDescription.setText(purposeInfo.description);
