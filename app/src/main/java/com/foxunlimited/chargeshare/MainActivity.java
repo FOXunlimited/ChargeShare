@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -56,45 +57,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SupportMapFragment map;
     GoogleMapOptions options = new GoogleMapOptions();
     LinearLayout listMyProposes;
+    RelativeLayout yourPurpose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listMyProposes = (LinearLayout)findViewById(R.id.list_my_proposes);
-        //Adding your proposes to activity
-        for(int i = 0;App.getUser().purposes!=null && i < App.getUser().purposes.size();i++){
-            LinearLayout rootCard = new LinearLayout(MainActivity.this);
-            rootCard.setOrientation(LinearLayout.VERTICAL);
-            rootCard.setBackgroundColor(Color.argb(255,33,150,243));
-            LinearLayout.LayoutParams paramsForRoot = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            paramsForRoot.setMargins(16, 16, 16, 0);
+        yourPurpose = (RelativeLayout)findViewById(R.id.your_purpose);
+        yourPurpose.setHovered(true);
 
-            TextView phoneNumber = new TextView(MainActivity.this);
-            phoneNumber.setPadding(16, 16, 16, 0);
-            phoneNumber.setText(App.getUser().purposes.get(i).phone);
-            phoneNumber.setTextColor(Color.WHITE);
-            phoneNumber.setId(i);
-
-            TextView adress = new TextView(MainActivity.this);
-            adress.setText(getCompleteAddressString(App.getUser().purposes.get(i).Lat, App.getUser().purposes.get(i).Lng));
-            adress.setTextColor(Color.WHITE);
-            adress.setPadding(16, 16, 16, 0);
-            adress.setId(i + (App.getUser().purposes.size()));
-
-            TextView description = new TextView(MainActivity.this);
-            description.setText(App.getUser().purposes.get(i).description);
-            description.setTextColor(Color.WHITE);
-            description.setPadding(16, 16, 16, 0);
-            description.setId(i + (App.getUser().purposes.size() * 2));
-
-            rootCard.addView(phoneNumber);
-            rootCard.addView(adress);
-            rootCard.addView(description);
-
-            listMyProposes.addView(rootCard, paramsForRoot);
-        }
 
 
         //Adding purposes intent

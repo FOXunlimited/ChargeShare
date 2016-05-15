@@ -67,7 +67,10 @@ public class AddPurposeActivity extends AppCompatActivity {
                         phoneNumberView.getText().toString(),description.getText().toString());
                 UserFirebaseManager.AddPurpose(user, getLocationFromAddress(AddPurposeActivity.this,
                         placeView.getText().toString()), phoneNumberView.getText().toString(),description.getText().toString());
-                App.getUser().purposes.add(purposeInfo);
+                App.getUser().Lat = getLocationFromAddress(AddPurposeActivity.this, placeView.getText().toString()).latitude;
+                App.getUser().Lng = getLocationFromAddress(AddPurposeActivity.this, placeView.getText().toString()).longitude;
+                App.getUser().phone = phoneNumberView.getText().toString();
+                App.getUser().description = description.getText().toString();
             }
         });
     }
