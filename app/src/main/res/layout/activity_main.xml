@@ -74,11 +74,6 @@
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/log_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"/>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

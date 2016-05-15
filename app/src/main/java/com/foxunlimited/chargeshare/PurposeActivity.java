@@ -32,11 +32,11 @@ public class PurposeActivity extends AppCompatActivity {
         purposerAdress = (TextView)findViewById(R.id.txt_purposer_adress);
         purposerDescription = (TextView)findViewById(R.id.txt_purposer_description);
         Bundle bundle = getIntent().getExtras();
-        PurposeInfo purposeInfo = App.getUsersArray().get(bundle.getInt("user_index")).purposes.get(bundle.getInt("purpose_index"));
         purposerName.setText(App.getUsersArray().get(bundle.getInt("user_index")).nick);
-        purposerNumber.setText(purposeInfo.phone);
-        purposerAdress.setText(getCompleteAddressString(purposeInfo.Lat, purposeInfo.Lng));
-        purposerDescription.setText(purposeInfo.description);
+        purposerNumber.setText(App.getUsersArray().get(bundle.getInt("user_index")).phone);
+        purposerAdress.setText(getCompleteAddressString(App.getUsersArray().get(bundle.getInt("user_index")).Lat,
+                App.getUsersArray().get(bundle.getInt("user_index")).Lng));
+        purposerDescription.setText(App.getUsersArray().get(bundle.getInt("user_index")).description);
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {

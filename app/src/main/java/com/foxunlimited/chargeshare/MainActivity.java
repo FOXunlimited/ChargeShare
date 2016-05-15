@@ -44,12 +44,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     class MarkerInfo {
         Marker marker;
         int i;
-        int j;
 
-        public MarkerInfo(Marker marker, int i, int j) {
+        public MarkerInfo(Marker marker, int i) {
             this.marker = marker;
             this.i = i;
-            this.j = j;
         }
     }
 
@@ -62,8 +60,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listMyProposes = (LinearLayout)findViewById(R.id.list_my_proposes);
+        listMyProposes = (LinearLayout) findViewById(R.id.list_my_proposes);
         //Adding your proposes to activity
+
+/*
         for(int i = 0;App.getUser().purposes!=null && i < App.getUser().purposes.size();i++){
             LinearLayout rootCard = new LinearLayout(MainActivity.this);
             rootCard.setOrientation(LinearLayout.VERTICAL);
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             listMyProposes.addView(rootCard, paramsForRoot);
         }
+*/
 
 
         //Adding purposes intent
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         spec = tabs.newTabSpec("tag2");
         spec.setContent(R.id.my_purposes);
-        spec.setIndicator("My Purposes");
+        spec.setIndicator("My Purpose");
         tabs.addTab(spec);
 
         spec = tabs.newTabSpec("tag3");
@@ -154,30 +155,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         ArrayList<User> users = App.getUsersArray();
         final ArrayList<MarkerInfo> markerInfos = new ArrayList<MarkerInfo>();
-        for (int i = 0;users !=null && i < users.size(); i++) {
-            for (int j = 0;users.get(i).purposes!=null && j < users.get(i).purposes.size(); j++) {
-                LatLng latLng = new LatLng(users.get(i).purposes.get(j).Lat,users.get(i).purposes.get(j).Lng);
-                Marker marker = googleMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .draggable(false));
-                markerInfos.add(new MarkerInfo(marker, i, j));
-            }
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker mark) {
-                    for (int i = 0; i < markerInfos.size(); i++) {
-                        if (markerInfos.get(i).marker.equals(mark)) {
-                            Intent intent = new Intent(App.getContext(), PurposeActivity.class);
-                            intent.putExtra("user_index", markerInfos.get(i).i);
-                            intent.putExtra("purpose_index", markerInfos.get(i).j);
-                            startActivity(intent);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });
+        for (int i = 0; users != null && i < users.size(); i++) {
+            LatLng latLng = new LatLng(users.get(i).Lat, users.get(i).Lng);
+            Marker marker = googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .draggable(false));
+            markerInfos.add(new MarkerInfo(marker, i));
         }
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker mark) {
+                for (int i = 0; i < markerInfos.size(); i++) {
+                    if (markerInfos.get(i).marker.equals(mark)) {
+                        Intent intent = new Intent(App.getContext(), PurposeActivity.class);
+                        intent.putExtra("user_index", markerInfos.get(i).i);
+                        startActivity(intent);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
