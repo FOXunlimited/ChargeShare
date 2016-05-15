@@ -13,52 +13,60 @@
 
         <TextView
             android:id="@+id/txt_purposer_name"
-            android:textColor="@color/colorTextPrimary"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="32sp"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="32sp" />
         <TextView
             android:id="@+id/txt_purposer_phone_number"
             android:layout_width="match_parent"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/txt_purposer_name"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:textColor="@color/colorTextSecondary"
-            android:layout_height="wrap_content" />
+            android:textSize="24sp" />
         <View
             android:id="@+id/purpose_first_separator"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
             android:layout_below="@id/txt_purposer_phone_number"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_width="match_parent"
-            android:background="@color/colorTextSecondary"
-            android:layout_height="3dp">
+            android:background="@color/colorTextSecondary">
 
         </View>
         <TextView
             android:id="@+id/txt_purposer_adress"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="24sp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_below="@id/purpose_first_separator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/purpose_first_separator"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="24sp" />
         <View
             android:id="@+id/purpose_second_separator"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_height="3dp"
             android:layout_below="@id/txt_purposer_adress"
-            android:background="@color/colorTextSecondary"
-            android:layout_height="3dp">
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/colorTextSecondary">
 
         </View>
         <TextView
             android:id="@+id/txt_purposer_description"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="24sp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_below="@id/purpose_second_separator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/purpose_second_separator"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Navigation..."
+            android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 </LinearLayout>
